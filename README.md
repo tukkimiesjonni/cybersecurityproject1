@@ -1,6 +1,6 @@
 # Threddit
 
-This repository is made as a project for a University of Helsinki course. I am trying to recreate the functionality of Reddit and make a simplistic website with said functionality. 
+This repository is made as a project for a University of Helsinki course. I am trying to recreate the functionality of Reddit and make a simplistic website with said functionality. Anonymously browsing users will be able to view threads and their comments. Registered users will be able to create new threads, comment on threads and up- or downvote threads.
 
 ## Table of Contents
 
