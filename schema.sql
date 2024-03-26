@@ -6,7 +6,9 @@ CREATE TABLE users (
 
 CREATE TABLE threads (
     id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users,
     title TEXT,
+    content TEXT,
     published TIMESTAMP
 );
 
