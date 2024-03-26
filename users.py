@@ -21,23 +21,36 @@ def login(username, password):
         return False
     
     session["user_id"] = user[0]
-    session["user_name"] = username
+    session["username"] = username
     session["csrf_token"] = os.urandom(16).hex()
     return True
 
-def create_user(user, passw):
 
-    passw_hash = generate_password_hash(passw)
+def check_if_user_exists(username):
+    query = text("""
+        SELECT COUNT(*) FROM users
+        WHERE name=:username
+    """)
+
+    result = db.session.execute(query, {"username":username})
+    if result.fetchone()[0] != 0:
+        return True
+    return False
+
+
+def create_user(username, password):
+
+    password_hash = generate_password_hash(password)
 
     query = text("""
         INSERT INTO users (name, password)
-        VALUES (:user, :passw)
+        VALUES (:username, :password)
     """)
 
-    db.session.execute(query, {"user":user, "passw":passw_hash})
+    db.session.execute(query, {"username":username, "password":password_hash})
     db.session.commit()
 
-    return login(user, passw)
+    return login(username, password)
 
 
 def check_csrf():

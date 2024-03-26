@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, session
 import users
 
 
@@ -23,9 +23,17 @@ def register():
             return render_template("error.html", message="Username cannot be empty")
         if len(username) > 20:
             return render_template("error.html", message="Username must be under 20 characters")
+        if len(password) < 1:
+            return render_template("error.html", message="Password cannot be empty")
+        if len(password) > 100:
+            return render_template("error.html", message="Password must be under 100 characters")
+        
+        if users.check_if_user_exists(username):
+            return render_template("error.html", message="Username is already taken")
         
         if not users.create_user(username, password):
             return render_template("error.html", message="Signing up failed")
+        
         return redirect("/")
     
 
@@ -38,6 +46,12 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
-        if not users.login(username, password):
-            return render_template("error.html", message="Wrong username or password")
-        return redirect("/")
+        if users.login(username, password):
+            return redirect("/")
+        return render_template("error.html", message="Wrong username or password")
+    
+
+@app.route("/logout")
+def logout():
+    del session["username"]
+    return redirect("/")
