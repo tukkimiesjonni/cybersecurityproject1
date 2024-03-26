@@ -12,6 +12,15 @@
         <div class="redirect-links">
             <a href="/login">Sign In<a/>
             <a href="/register">Sign Up</a>
+
+            {% if session.username %}
+            <a href="/logout">Sign Out</a>
+            {% endif %}
+        </div>
+        <div>
+            {% if session.username %}
+            <p>You are logged in as {{ session.username }}</p>
+            {% endif %}
         </div>
         <center>
             <div class="threads">
