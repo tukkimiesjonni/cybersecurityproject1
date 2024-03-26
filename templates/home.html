@@ -17,10 +17,15 @@
             <a href="/logout">Sign Out</a>
             {% endif %}
         </div>
-        <div>
+        <div class="user-info">
             {% if session.username %}
             <p>You are logged in as {{ session.username }}</p>
             {% endif %}
+        </div>
+        <div class="new-thread-button">
+            <form action="/new_thread">
+                <input type="submit" value="New Thread">
+            </form>
         </div>
         <center>
             <div class="threads">
