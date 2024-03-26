@@ -8,7 +8,7 @@ This repository is made as a project for a University of Helsinki course. I am t
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
-- [State of the project](#stateoftheproject)
+- [Progress](#progress)
 
 ## Installation
 
@@ -26,13 +26,13 @@ After the schema is executed, you will be able to run the flask program in the p
 
 ## Contributing
 
-Insert contributors here.
+Jonni Tukkimies
 
 ## License
 
 Insert license here.
 
-## State of the project
-
+## Progress
 
 Currently, I have managed to make almost all of the necessary templates and static css files in order for the project to work. In terms of functionality, users are able to register, sign in and sign out from the website. Users will also be able to create new threads but they are yet to be displayed on the site.
+
