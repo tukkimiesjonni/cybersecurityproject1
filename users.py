@@ -53,6 +53,21 @@ def create_user(username, password):
     return login(username, password)
 
 
+def get_user_id():
+
+    username = session["username"]
+
+    query = text("""
+        SELECT id FROM users
+        WHERE name = (:username)
+    """)
+
+    query_result = db.session.execute(query, {"username":username})
+    user_id = query_result.fetchone()[0]
+
+    return user_id
+
+
 def check_csrf():
     if session["csrf_token"] != request.form["csrf_token"]:
         abort(403)
