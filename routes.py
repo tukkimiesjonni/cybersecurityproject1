@@ -6,7 +6,8 @@ import threads
 
 @app.route("/")
 def home():
-    return render_template("home.html")
+    thread_list = threads.get_threads()
+    return render_template("home.html", threads=thread_list)
 
 
 @app.route("/register", methods=["GET", "POST"])
