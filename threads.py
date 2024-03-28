@@ -5,6 +5,7 @@ from flask import session, abort, request
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy.sql import text
 from datetime import datetime
+from users import get_user_id
 
 
 def get_timestamp():
@@ -13,18 +14,16 @@ def get_timestamp():
 
 
 def create_thread(title, content):
-    status = False
 
-    print(title, content)
-
+    user_id = get_user_id()
     time = get_timestamp()
 
     query = text("""
-        INSERT INTO threads (title, content, published)
-        VALUES (:title, :content, :published)
+        INSERT INTO threads (user_id, title, content, published)
+        VALUES (:user_id, :title, :content, :published)
     """)
 
-    db.session.execute(query, {"title":title, "content":content, "published":time})
+    db.session.execute(query, {"user_id":user_id, "title":title, "content":content, "published":time})
     db.session.commit()
     print("thread added")
     return True
@@ -42,18 +41,6 @@ def get_thread_id(thread):
     return thread_id
 
 
-def get_user_id(username):
-    query = text("""
-        SELECT id FROM users
-        WHERE name = (:username)
-    """)
-
-    query_result = db.session.execute(query, {":username":username})
-    user_id = query_result.fetchone()[0]
-
-    return user_id
-
-
 def add_comment(thread, comment):
 
     time = get_timestamp()
@@ -68,3 +55,17 @@ def add_comment(thread, comment):
 
     db.session.execute(query, {"user_id":user_id, "thread_id":thread_id, "comment":comment, "time":time})
     db.session.commit()
+
+
+def get_threads():
+    query = text("""
+        SELECT name, title, content, published
+        FROM users
+        JOIN threads 
+        ON users.id = threads.user_id
+    """)
+
+    query_result = db.session.execute(query)
+    result = query_result.fetchall()
+
+    return result
