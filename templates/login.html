@@ -2,14 +2,78 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <style>
+            h1 {
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+            .threads p {
+                word-wrap: break-word;
+            }
+            form {
+                margin-bottom: 20px;
+            }
+            small {
+                margin-bottom: 10px;
+            }
+            button {
+                margin-top: 10px;
+            }
+        </style>
+        <title>Threddit</title>
     </head>
     <body>
-        <form action="/login" method="post">
-            <input type="text" name="username">
-            <input type="password" name="password">
-            <input type="submit" value="Sign in">
-        </form>
+        <div class="container">
+            <div class="row">
+                <div class="col-8">
+                    <h1><a href="/" style="text-decoration: none; color: black;">Threddit</a></h1>
+                    <form action="/login" method="post">
+                        <div class="form-username">
+                            <label for="input-username">Title</label>
+                            <input type="text" class="form-control" id="input-username" aria-describedby="Username" placeholder="Username" name="username">
+                            <small id="username" class="form-text text-muted">Type username title here.</small>
+                        </div>
+                        <div class="form-password">
+                            <label for="input-content">Text</label>
+                            <input type="password" class="form-control" id="input-password" placeholder="Password" name="password">
+                        </div>
+                        <button type="submit" value="post" class="btn btn-primary">Sign in</button>
+                    </form>                    
+                </div>
+                <div class="col-4">
+                    <div class="redirect-links">
+                        {% if not session.username %}
+                        <a href="/login">Sign In<a/>
+                        <a href="/register">Sign Up</a>
+                        {% endif %}
+            
+                        {% if session.username %}
+                        <a href="/logout">Sign Out</a>
+                        {% endif %}
+                    </div>
+                    <div class="user-info">
+                        {% if session.username %}
+                        <p>You are logged in as {{ session.username }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="about">
+                        <h1>About</h1>
+                        <p>
+                            Welcome to Threddit!<br><br>
+
+                            Threddit is your go-to destination for engaging discussions, insightful conversations, and a platform to share your thoughts with the world. As a simple yet powerful web forum page, Threddit offers you the opportunity to post and read threads on a wide range of topics.<br><br>
+
+                            Whether you're passionate about technology, sports, arts, or anything in between, Threddit provides a space where you can connect with like-minded individuals, exchange ideas, and explore diverse perspectives.<br><br>
+
+                            Join our vibrant community today and start contributing to the rich tapestry of discussions. Whether you're a seasoned veteran or a newcomer to online forums, Threddit welcomes you with open arms.<br><br>
+
+                            Discover new threads, share your experiences, and immerse yourself in the dynamic world of Threddit. Let your voice be heard, and let the conversations begin!<br><br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
