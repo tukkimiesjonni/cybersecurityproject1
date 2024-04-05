@@ -2,47 +2,78 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="static/styles_home.css">
-        <!--Insert comments here-->
-        <title>TestApp</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <style>
+            h1 {
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+            .threads p {
+                word-wrap: break-word;
+            }
+            form {
+                margin-bottom: 20px;
+            }
+        </style>
+        <title>Threddit</title>
     </head>
     <body>
-        <h1>Threddit</h1>
-        <div class="redirect-links">
-            {% if not session.username %}
-            <a href="/login">Sign In<a/>
-            <a href="/register">Sign Up</a>
-            {% endif %}
+        <div class="container">
+            <div class="row">
+                <div class="col-8">
+                    <h1>Threddit</h1>
+                    {% if session.username %}
+                    <div class="new-thread-button">
+                        <form action="/new_thread">
+                            <input type="submit" value="New Thread">
+                        </form>
+                     </div>
+                    {% endif%}
+                    <div class="threads">
+                        {% for thread in threads %}
+                        <h2>
+                            {{thread[1]}}
+                        </h2>
+                        <p>
+                            {{thread[2]}}
+                        </p>
+                        <hr>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="redirect-links">
+                        {% if not session.username %}
+                        <a href="/login">Sign In<a/>
+                        <a href="/register">Sign Up</a>
+                        {% endif %}
+            
+                        {% if session.username %}
+                        <a href="/logout">Sign Out</a>
+                        {% endif %}
+                    </div>
+                    <div class="user-info">
+                        {% if session.username %}
+                        <p>You are logged in as {{ session.username }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="about">
+                        <h1>About</h1>
+                        <p>
+                            Welcome to Threddit!<br><br>
 
-            {% if session.username %}
-            <a href="/logout">Sign Out</a>
-            {% endif %}
-        </div>
-        <div class="user-info">
-            {% if session.username %}
-            <p>You are logged in as {{ session.username }}</p>
-            {% endif %}
-        </div>
-        {% if session.username %}
-        <div class="new-thread-button">
-            <form action="/new_thread">
-                <input type="submit" value="New Thread">
-            </form>
-        </div>
-        {% endif%}
-        <center>
-            <div class="threads">
-                {% for thread in threads %}
-                <p>
-                    {{thread}}
-                </p>
-                <hr>
-                {% endfor %}
+                            Threddit is your go-to destination for engaging discussions, insightful conversations, and a platform to share your thoughts with the world. As a simple yet powerful web forum page, Threddit offers you the opportunity to post and read threads on a wide range of topics.<br><br>
+
+                            Whether you're passionate about technology, sports, arts, or anything in between, Threddit provides a space where you can connect with like-minded individuals, exchange ideas, and explore diverse perspectives.<br><br>
+
+                            Join our vibrant community today and start contributing to the rich tapestry of discussions. Whether you're a seasoned veteran or a newcomer to online forums, Threddit welcomes you with open arms.<br><br>
+
+                            Discover new threads, share your experiences, and immerse yourself in the dynamic world of Threddit. Let your voice be heard, and let the conversations begin!<br><br>
+                        </p>
+                    </div>
+                </div>
             </div>
-        </center>
-    <!--Insert threads here...-->
-    <!--List of threads, sorting system?-->
-    <!--Votes? Upvotes, Downvotes?-->
+        </div>
     </body>
 </html>
