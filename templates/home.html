@@ -33,10 +33,10 @@
                     <div class="threads">
                         {% for thread in threads %}
                         <h2>
-                            {{thread[1]}}
+                            <a href="/thread/{{ thread.id }}" style="text-decoration: none; color: black;">{{ thread.title }}</a>
                         </h2>
                         <p>
-                            {{thread[2]}}
+                            {{thread[3]}}
                         </p>
                         <hr>
                         {% endfor %}

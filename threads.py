@@ -10,6 +10,8 @@ from users import get_user_id
 
 def get_timestamp():
     time = datetime.now()
+    timestamp = time.time()
+    print(timestamp)
     return time
 
 
@@ -59,7 +61,7 @@ def add_comment(thread, comment):
 
 def get_threads():
     query = text("""
-        SELECT name, title, content, published
+        SELECT threads.id, name, title, content, published
         FROM users
         JOIN threads 
         ON users.id = threads.user_id
@@ -69,3 +71,20 @@ def get_threads():
     result = query_result.fetchall()
 
     return result
+
+
+def get_thread(thread_id):
+    query = text("""
+        SELECT name, title, content, published
+        FROM users
+        JOIN threads
+        ON users.id = threads.user_id
+        WHERE threads.id = (:thread_id)
+    """)
+
+    query_result = db.session.execute(query, {"thread_id":thread_id})
+    result = query_result.fetchone()
+
+    return result
+
+    
