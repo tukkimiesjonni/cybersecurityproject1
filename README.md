@@ -18,11 +18,13 @@ Insert instructions on how to install and set up the project here.
 
 I am assuming that users of this program have downloaded PostgreSQL using the provided installation script. Therefore:
 
-Start a database in your home directory with inputting `start-pg.sh`. Make sure to keep the script running.
+Start a database in your home directory with executing the script `start-pg.sh`. Make sure to keep the script running.
 
-Open a new window in your terminal and input `createdb dbname`. After this you will e able to open a connection to that database from you homedirectory by typin `psql`. There you can execute SQL commands. Start by executing the `schema.sql` file there.
+Open a new window in your terminal and execute `createdb dbname`. After this you will be able to open a connection to that database from you home directory by executing `psql`. There you can execute SQL commands. Start by executing the contents of `schema.sql` file there.
 
 After the schema is executed, you will be able to run the flask program in the project directory terminal using `flask run`.
+
+Now, the website will run locally on your machine and you should be able to test it.
 
 ## Contributing
 
@@ -34,5 +36,11 @@ Insert license here.
 
 ## Progress
 
-Currently, I have managed to make almost all of the necessary templates and static css files in order for the project to work. In terms of functionality, users are able to register, sign in and sign out from the website. Users will also be able to create new threads but they are yet to be displayed on the site.
+At this time, the project is at a state, where users can happily create accounts, view and add new threads. Every thread has it's own URL where in the future comments for the specific thread can be viewed and added. I haven't implement any voting system yet. Currently the threads are in wrong order on the home page, but I will fix that.
+
+Future improvements are going to be:
+- Sorting of the threads
+- Maybe adding different genres like "politics", "technology", "sports" and etc
+- Voting system
+- Adding the comments
 
