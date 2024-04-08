@@ -71,3 +71,10 @@ def new_thread():
             return render_template("message.html", message="Thread succesfully created")
         else:
             return render_template("message.html", message="Something went wrong")
+        
+
+@app.route("/thread/<int:id>", methods=["GET", "POST"])
+def thread_view(id):
+    if request.method == "GET":
+        thread = threads.get_thread(id)
+        return render_template("thread.html", content=thread, id=id)
