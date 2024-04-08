@@ -10,8 +10,6 @@ from users import get_user_id
 
 def get_timestamp():
     time = datetime.now()
-    timestamp = time.time()
-    print(timestamp)
     return time
 
 
