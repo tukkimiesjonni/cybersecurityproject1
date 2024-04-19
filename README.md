@@ -12,10 +12,6 @@ This repository is made as a project for a University of Helsinki course. I am t
 
 ## Installation
 
-Insert instructions on how to install and set up the project here.
-
-## Usage
-
 I am assuming that users of this program have downloaded PostgreSQL using the provided installation script. Therefore:
 
 Start a database in your home directory with executing the script `start-pg.sh`. Make sure to keep the script running.
@@ -25,6 +21,10 @@ Open a new window in your terminal and execute `createdb dbname`. After this you
 After the schema is executed, you will be able to run the flask program in the project directory terminal using `flask run`.
 
 Now, the website will run locally on your machine and you should be able to test it.
+
+## Usage
+
+Insert info abot the usage here.
 
 ## Contributing
 
