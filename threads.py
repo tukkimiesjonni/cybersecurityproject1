@@ -85,4 +85,34 @@ def get_thread(thread_id):
 
     return result
 
-    
+
+def upvote(thread_id):
+    query = text("""
+    INSERT INTO votes (thread_id, vote)
+    VALUES (:thread_id, 1)
+    """)
+
+    db.session.execute(query, {"thread_id":thread_id})
+    db.session.commit()
+
+
+def downvote(thread_id):
+    query = text("""
+    INSERT INTO votes (thread_id, vote)
+    VALUES (:thread_id, 0)
+    """)
+
+    db.session.execute(query, {"thread_id":thread_id})
+    db.session.commit()
+
+
+def count_votes(thread_id):
+    query = text("""
+        COUNT(*) FROM votes
+        WHERE thread_id = (:thread_id)
+    """)
+
+    query_result = db.session.execute(query, {"thread_id":thread_id})
+    result = query_result.fetchone()
+
+    return result
