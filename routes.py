@@ -16,7 +16,6 @@ def register():
         return render_template("register.html")
 
     if request.method == "POST":
-        #users.check_csrf()
 
         username = request.form["username"]
         password = request.form["password"]
@@ -45,6 +44,7 @@ def login():
         return render_template("login.html")
     
     if request.method == "POST":
+        users.check_csrf()
         username = request.form["username"]
         password = request.form["password"]
 
@@ -65,6 +65,7 @@ def new_thread():
         return render_template("new_thread.html")
     
     if request.method == "POST":
+        users.check_csrf()
         title = request.form["title"]
         content = request.form["content"]
         if threads.create_thread(title, content):
@@ -76,5 +77,23 @@ def new_thread():
 @app.route("/thread/<int:id>", methods=["GET", "POST"])
 def thread_view(id):
     if request.method == "GET":
+        thread = threads.get_thread(id)
+        return render_template("thread.html", content=thread, id=id)
+
+
+@app.route("/upvote/<int:id>", methods=["GET", "POST"])
+def upvote(id):
+    if request.method == "POST":
+        threads.upvote(id)
+        users.check_csrf()
+        thread = threads.get_thread(id)
+        return render_template("thread.html", content=thread, id=id)
+
+
+@app.route("/downvote/<int:id>", methods=["GET", "POST"])
+def downvote(id):
+    if request.method == "POST":
+        users.check_csrf()
+        threads.downvote(id)
         thread = threads.get_thread(id)
         return render_template("thread.html", content=thread, id=id)
