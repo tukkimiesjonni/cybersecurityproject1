@@ -27,28 +27,37 @@
                 <div class="col-8">
                     <h1><a href="/" style="text-decoration: none; color: black;">Threddit</a></h1>
                     {% if content %}
-                    <h2>
-                        {{content[1]}}
-                    </h2>
+                    <h2>{{content[1]}}</h2>
                     <small id="timestamp" class="form-text text-muted">{{content[3]}}</small>
-                    <p>
-                        {{content[2]}}
-                    </p>
+                    <p>{{content[2]}}</p>
                     <hr>
                     {% if session.username %}
                     <form action="/upvote/{{ id }}" method="post" class="d-inline">
-                    <input type="hidden" name="csrf_token" value="{{ session['csrf_token']  }}">
+                        <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
                         <button type="submit" value="post" class="btn btn-success mr-2">Upvote</button>
                     </form>
                     <form action="/downvote/{{ id }}" method="post" class="d-inline">
-                    <input type="hidden" name="csrf_token" value="{{ session['csrf_token']  }}">
+                        <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
                         <button type="submit" value="post" class="btn btn-danger">Downvote</button>
+                    </form>
+                    <hr>
+                    <form action="/new_comment/{{ id }}" method="post">
+                        <label for="comment-content">New Comment</label>
+                        <textarea class="form-control" id="comment-content" placeholder="Text" name="comment-content" rows="4"></textarea>
+                        <button type="submit" value="post" class="btn btn-primary mt-2">Add Comment</button>
+                        <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
                     </form>
                     {% endif %}
                     <hr>
-                    <h2>
-                        Comments
-                    </h2>
+                    <h2>Comments</h2>
+                    {% endif %}
+                    {% if comments %}
+                    {% for comment in comments %}
+                    <hr>
+                    <p>
+                        {{ comment }}
+                    </p>
+                    {% endfor %}
                     {% endif %}
                 </div>
                 <div class="col-4">
@@ -57,7 +66,6 @@
                         <a href="/login">Sign In<a/>
                         <a href="/register">Sign Up</a>
                         {% endif %}
-            
                         {% if session.username %}
                         <a href="/logout">Sign Out</a>
                         {% endif %}
@@ -71,18 +79,14 @@
                         <h1>About</h1>
                         <p>
                             Welcome to Threddit!<br><br>
-
                             Threddit is your go-to destination for engaging discussions, insightful conversations, and a platform to share your thoughts with the world. As a simple yet powerful web forum page, Threddit offers you the opportunity to post and read threads on a wide range of topics.<br><br>
-
                             Whether you're passionate about technology, sports, arts, or anything in between, Threddit provides a space where you can connect with like-minded individuals, exchange ideas, and explore diverse perspectives.<br><br>
-
                             Join our vibrant community today and start contributing to the rich tapestry of discussions. Whether you're a seasoned veteran or a newcomer to online forums, Threddit welcomes you with open arms.<br><br>
-
                             Discover new threads, share your experiences, and immerse yourself in the dynamic world of Threddit. Let your voice be heard, and let the conversations begin!<br><br>
                         </p>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>        
     </body>
 </html>
