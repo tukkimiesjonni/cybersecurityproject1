@@ -78,7 +78,8 @@ def new_thread():
 def thread_view(id):
     if request.method == "GET":
         thread = threads.get_thread(id)
-        return render_template("thread.html", content=thread, id=id)
+        comments = threads.get_comments(id)
+        return render_template("thread.html", content=thread, id=id, comments=comments)
 
 
 @app.route("/upvote/<int:id>", methods=["GET", "POST"])
@@ -87,7 +88,8 @@ def upvote(id):
         threads.upvote(id)
         users.check_csrf()
         thread = threads.get_thread(id)
-        return render_template("thread.html", content=thread, id=id)
+        comments = threads.get_comments(id)
+        return render_template("thread.html", content=thread, id=id, comments=comments)
 
 
 @app.route("/downvote/<int:id>", methods=["GET", "POST"])
@@ -96,4 +98,17 @@ def downvote(id):
         users.check_csrf()
         threads.downvote(id)
         thread = threads.get_thread(id)
-        return render_template("thread.html", content=thread, id=id)
+        comments = threads.get_comments(id)
+        return render_template("thread.html", content=thread, id=id, comments=comments)
+    
+
+@app.route("/new_comment/<int:id>", methods=["GET", "POST"])
+def new_comment(id):
+    if request.method == "POST":
+        users.check_csrf()
+        user = users.get_user_id()
+        comment_content = request.form["comment-content"]
+        threads.new_comment(id, user, comment_content)
+        thread = threads.get_thread(id)
+        comments = threads.get_comments(id)
+        return render_template("thread.html", content=thread, id=id, comments=comments)
