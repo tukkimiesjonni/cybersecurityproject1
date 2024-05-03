@@ -22,7 +22,6 @@ CREATE TABLE comments (
 
 CREATE TABLE votes (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users,
     thread_id INTEGER REFERENCES threads,
     vote INTEGER
 );

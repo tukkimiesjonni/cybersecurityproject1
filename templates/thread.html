@@ -36,10 +36,12 @@
                     </p>
                     <hr>
                     {% if session.username %}
-                    <form action="/upvote" method="post" class="d-inline">
+                    <form action="/upvote/{{ id }}" method="post" class="d-inline">
+                    <input type="hidden" name="csrf_token" value="{{ session['csrf_token']  }}">
                         <button type="submit" value="post" class="btn btn-success mr-2">Upvote</button>
                     </form>
-                    <form action="downvote" method="post" class="d-inline">
+                    <form action="/downvote/{{ id }}" method="post" class="d-inline">
+                    <input type="hidden" name="csrf_token" value="{{ session['csrf_token']  }}">
                         <button type="submit" value="post" class="btn btn-danger">Downvote</button>
                     </form>
                     {% endif %}

@@ -27,6 +27,7 @@
                 <div class="col-8">
                     <h1><a href="/" style="text-decoration: none; color: black;">Threddit</a></h1>
                     <form action="/login" method="post">
+                    <input type="hidden" name="csrf_token" value="{{ session['csrf_token']  }}">
                         <div class="form-username">
                             <label for="input-username">Title</label>
                             <input type="text" class="form-control" id="input-username" aria-describedby="Username" placeholder="Username" name="username">
