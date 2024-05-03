@@ -116,3 +116,25 @@ def count_votes(thread_id):
     result = query_result.fetchone()
 
     return result
+
+
+def new_comment(thread_id, user_id, comment):
+    query = text("""
+        INSERT INTO comments (thread_id, user_id, comment)
+        VALUES (:thread_id, :user_id, :comment)
+    """)
+
+    db.session.execute(query, {"thread_id":thread_id, "user_id":user_id, "comment":comment})
+    db.session.commit()
+
+
+def get_comments(thread_id):
+    query = text("""
+        SELECT * FROM comments
+        WHERE thread_id = (:thread_id)
+    """)
+
+    query_result = db.session.execute(query, {"thread_id":thread_id})
+    result = query_result.fetchall()
+
+    return result
