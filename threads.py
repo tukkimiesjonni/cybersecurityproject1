@@ -107,32 +107,59 @@ def downvote(thread_id):
 
 
 def count_votes(thread_id):
-    query = text("""
-        COUNT(*) FROM votes
-        WHERE thread_id = (:thread_id)
+    query_upvotes = text("""
+        SELECT COUNT(*) FROM votes
+        WHERE thread_id = :thread_id
+        AND vote = 1
     """)
 
-    query_result = db.session.execute(query, {"thread_id":thread_id})
-    result = query_result.fetchone()
+    query_downvotes = text("""
+        SELECT COUNT(*) FROM votes
+        WHERE thread_id = :thread_id
+        AND vote = 0
+    """)
 
-    return result
+    # Execute the query for upvotes
+    upvote_result = db.session.execute(query_upvotes, {"thread_id": thread_id})
+    upvote_amount = upvote_result.fetchone()[0]  # Get the count from the result
+
+    # Execute the query for downvotes
+    downvote_result = db.session.execute(query_downvotes, {"thread_id": thread_id})
+    downvote_amount = downvote_result.fetchone()[0]  # Get the count from the result
+
+    # Handle case where there are no votes yet
+    if upvote_amount is None:
+        upvote_amount = 0
+    if downvote_amount is None:
+        downvote_amount = 0
+
+    # Calculate the net vote count
+    net_votes = upvote_amount - downvote_amount
+    print(net_votes)
+
+    return net_votes
+
 
 
 def new_comment(thread_id, user_id, comment):
-    query = text("""
-        INSERT INTO comments (thread_id, user_id, comment)
-        VALUES (:thread_id, :user_id, :comment)
-    """)
+    if comment != "":
+        query = text("""
+            INSERT INTO comments (thread_id, user_id, comment)
+            VALUES (:thread_id, :user_id, :comment)
+        """)
 
-    db.session.execute(query, {"thread_id":thread_id, "user_id":user_id, "comment":comment})
-    db.session.commit()
+        db.session.execute(query, {"thread_id":thread_id, "user_id":user_id, "comment":comment})
+        db.session.commit()
 
 
 def get_comments(thread_id):
     query = text("""
-        SELECT * FROM comments
-        WHERE thread_id = (:thread_id)
+        SELECT users.name, comments.comment
+        FROM comments
+        INNER JOIN users ON comments.user_id = users.id
+        WHERE comments.thread_id = :thread_id
     """)
+
 
     query_result = db.session.execute(query, {"thread_id":thread_id})
     result = query_result.fetchall()
