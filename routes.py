@@ -7,7 +7,8 @@ import threads
 @app.route("/")
 def home():
     thread_list = threads.get_threads()
-    return render_template("home.html", threads=thread_list)
+    sorted_thread_list = sorted(thread_list, key=lambda x: x[4], reverse=True)
+    return render_template("home.html", threads=sorted_thread_list)
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -44,7 +45,6 @@ def login():
         return render_template("login.html")
     
     if request.method == "POST":
-        users.check_csrf()
         username = request.form["username"]
         password = request.form["password"]
 
@@ -69,7 +69,7 @@ def new_thread():
         title = request.form["title"]
         content = request.form["content"]
         if threads.create_thread(title, content):
-            return render_template("message.html", message="Thread succesfully created")
+            return redirect("/")
         else:
             return render_template("message.html", message="Something went wrong")
         
@@ -79,36 +79,53 @@ def thread_view(id):
     if request.method == "GET":
         thread = threads.get_thread(id)
         comments = threads.get_comments(id)
-        return render_template("thread.html", content=thread, id=id, comments=comments)
+        votes = threads.count_votes(id)
+        return render_template("thread.html", content=thread, id=id, comments=comments, votes=votes)
 
 
 @app.route("/upvote/<int:id>", methods=["GET", "POST"])
 def upvote(id):
+    threads.upvote(id)
+    thread = threads.get_thread(id)
+    comments = threads.get_comments(id)
+    votes = threads.count_votes(id)
+
+    if request.method == "GET":
+        return render_template("thread.html", content=thread, id=id, comments=comments, votes=votes)
+
     if request.method == "POST":
-        threads.upvote(id)
         users.check_csrf()
-        thread = threads.get_thread(id)
-        comments = threads.get_comments(id)
-        return render_template("thread.html", content=thread, id=id, comments=comments)
+        return render_template("thread.html", content=thread, id=id, comments=comments, votes=votes)
 
 
 @app.route("/downvote/<int:id>", methods=["GET", "POST"])
 def downvote(id):
+    threads.downvote(id)
+    thread = threads.get_thread(id)
+    comments = threads.get_comments(id)
+    votes = threads.count_votes(id)
+
+    if request.method == "GET":
+        return render_template("thread.html", content=thread, id=id, coments=comments, votes=votes)
+
     if request.method == "POST":
         users.check_csrf()
-        threads.downvote(id)
-        thread = threads.get_thread(id)
-        comments = threads.get_comments(id)
-        return render_template("thread.html", content=thread, id=id, comments=comments)
+        return render_template("thread.html", content=thread, id=id, comments=comments, votes=votes)
     
 
 @app.route("/new_comment/<int:id>", methods=["GET", "POST"])
 def new_comment(id):
+    users.check_csrf()
+    user = users.get_user_id()
+    comment_content = request.form["comment-content"]
+    threads.new_comment(id, user, comment_content)
+    thread = threads.get_thread(id)
+    comments = threads.get_comments(id)
+    votes = threads.count_votes(id)
+
+    if request.method == "GET":
+        return render_template("thread.html", content=thread, id=id, comments=comments, votes=votes)
+
     if request.method == "POST":
         users.check_csrf()
-        user = users.get_user_id()
-        comment_content = request.form["comment-content"]
-        threads.new_comment(id, user, comment_content)
-        thread = threads.get_thread(id)
-        comments = threads.get_comments(id)
-        return render_template("thread.html", content=thread, id=id, comments=comments)
+        return render_template("thread.html", content=thread, id=id, comments=comments, votes=votes)
