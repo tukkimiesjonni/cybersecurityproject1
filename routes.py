@@ -85,7 +85,6 @@ def thread_view(id):
 
 @app.route("/upvote/<int:id>", methods=["GET", "POST"])
 def upvote(id):
-    threads.upvote(id)
     thread = threads.get_thread(id)
     comments = threads.get_comments(id)
     votes = threads.count_votes(id)
@@ -95,12 +94,12 @@ def upvote(id):
 
     if request.method == "POST":
         users.check_csrf()
+        threads.upvote(id)
         return render_template("thread.html", content=thread, id=id, comments=comments, votes=votes)
 
 
 @app.route("/downvote/<int:id>", methods=["GET", "POST"])
 def downvote(id):
-    threads.downvote(id)
     thread = threads.get_thread(id)
     comments = threads.get_comments(id)
     votes = threads.count_votes(id)
@@ -110,6 +109,7 @@ def downvote(id):
 
     if request.method == "POST":
         users.check_csrf()
+        threads.downvote(id)
         return render_template("thread.html", content=thread, id=id, comments=comments, votes=votes)
     
 
