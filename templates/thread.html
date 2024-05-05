@@ -10,10 +10,7 @@
                 margin-bottom: 20px;
             }
             form {
-                margin-bottom: 20px;
-            }
-            small {
-                margin-bottom: 10px;
+                margin-bottom: 5px;
             }
             button {
                 margin-top: 10px;
@@ -28,9 +25,9 @@
                     <h1><a href="/" style="text-decoration: none; color: black;">Threddit</a></h1>
                     {% if content %}
                     <h2>{{content[1]}}</h2>
-                    <small id="timestamp" class="form-text text-muted">{{content[3]}}</small>
                     <p>{{content[2]}}</p>
                     <hr>
+                    <small id="timestamp-votes" class="form-text text-muted">{{content[3]}}       Votes: {{ votes }}</small>
                     {% if session.username %}
                     <form action="/upvote/{{ id }}" method="post" class="d-inline">
                         <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
@@ -41,7 +38,7 @@
                         <button type="submit" value="post" class="btn btn-danger">Downvote</button>
                     </form>
                     <hr>
-                    <form action="/new_comment/{{ id }}" method="post">
+                    <form action="/new_comment/{{ id }}" method="post"> 
                         <label for="comment-content">New Comment</label>
                         <textarea class="form-control" id="comment-content" placeholder="Text" name="comment-content" rows="4"></textarea>
                         <button type="submit" value="post" class="btn btn-primary mt-2">Add Comment</button>
@@ -55,8 +52,9 @@
                     {% for comment in comments %}
                     <hr>
                     <p>
-                        {{ comment }}
+                        {{ comment[1] }}
                     </p>
+                    <small class="form-text text-muted">Posted by: {{ comment[0] }}</small>
                     {% endfor %}
                     {% endif %}
                 </div>
