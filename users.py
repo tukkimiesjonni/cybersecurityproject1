@@ -6,19 +6,8 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 def login(username, password):
     # A03 Injection
-    # # The following query is vulnerable to SQL injection as it directly inserts the username into the query
+    # The following query is vulnerable to SQL injection as it directly inserts the username into the query
     # Proper query and the execute_query call is commented out below
-
-    ## Injection safe code starts here:
-    # query = """
-    #     SELECT password, id 
-    #     FROM users 
-    #     WHERE name = ?
-    # """
-    # result = execute_query(query, (username,), fetch=True)
-    # if not result:
-    #     return False
-    ## Injection safe code ends here
 
     # Injection vulnerable code starts here:
     query = f"""
@@ -31,7 +20,18 @@ def login(username, password):
     if not result:
         return False
     # Injection vulnerable code ends here
-    
+
+    # # Injection safe code starts here:
+    # query = """
+    #     SELECT password, id 
+    #     FROM users 
+    #     WHERE name = ?
+    # """
+    # result = execute_query(query, (username,), fetch=True)
+    # if not result:
+    #     return False
+    # # Injection safe code ends here
+
     # Function for logging in user with plaintext password starts here:
     user = result[0]
     hashed_password, user_id = user["password"], user["id"]
@@ -45,7 +45,8 @@ def login(username, password):
         return False
     # Function for logging in user with plaintext password ends here
 
-    ## Function for logging in user with hashed password starts here:
+
+    # # Function for logging in user with hashed password starts here:
     # if not check_password_hash(hashed_password, password):
     #     return False
 
@@ -53,7 +54,7 @@ def login(username, password):
     # session["username"] = username
     # # session["csrf_token"] = os.urandom(16).hex()
     # return True
-    ## Function for logging in user with hashed password ends here
+    # # Function for logging in user with hashed password ends here
 
 
 def check_if_user_exists(username):
@@ -73,9 +74,9 @@ def create_user(username, password):
 
     # Password stored as plain text:
     password_hash = password
+
     # Password stored as hashed value:
     # password_hash = generate_password_hash(password)
-
 
     query = """
         INSERT INTO users (name, password)

@@ -1,6 +1,13 @@
 # Threddit
 
-This repository is made as a project for a University of Helsinki course. I am trying to recreate the functionality of Reddit and make a simplistic website with said functionality. Anonymously browsing users will be able to view threads and their comments. Registered users will be able to create new threads, comment on threads and up- or downvote threads.
+This repository is made for Cyber Security Base MOOC course. I try to recreate 5 flaws from the OWASP Top 10 list.
+
+List of example vulnerabilities in this project:
+- A03:2021 Injection
+- A02:2021 Cryptographic Failures
+- CSRF
+- A07:2021 Identification and Authentication Failures
+- A09:2021 Security Loggin and Monitoring Failures
 
 ## Table of Contents
 
@@ -12,35 +19,45 @@ This repository is made as a project for a University of Helsinki course. I am t
 
 ## Installation
 
-I am assuming that users of this program have downloaded PostgreSQL using the provided installation script. Therefore:
+### Clone the repository
+```bash
+git clone https://github.com/tukkimiesjonni/cybersecurityproject1.git
 
-Start a database in your home directory with executing the script `start-pg.sh`. Make sure to keep the script running.
+cd cybersecurityproject1
+```
 
-Open a new window in your terminal and execute `createdb dbname`. After this you will be able to open a connection to that database from you home directory by executing `psql`. There you can execute SQL commands. Start by executing the contents of `schema.sql` file there.
+### Create and activate a virtual environment
 
-After the schema is executed, you will be able to run the flask program in the project directory terminal using `flask run`.
+For macOS / linux:
 
-Now, the website will run locally on your machine and you should be able to test it.
+```bash
+python3 -m venv venv
+
+source venv/bin/activate
+```
+
+### Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+If you don't have the requirements.txt file, you can create one with:
+
+```bash
+pip freeze > requirements.txt
+```
+
+### Initialize the database
+
+```bash
+python init_db.py
+```
 
 ## Usage
 
-Insert info abot the usage here.
+### Run the application
 
-## Contributing
-
-Jonni Tukkimies
-
-## License
-
-Insert license here.
-
-## Progress
-
-At this time, the project is at a state, where users can happily create accounts, view and add new threads. Every thread has it's own URL where in the future comments for the specific thread can be viewed and added. I haven't implement any voting system yet. Currently the threads are in wrong order on the home page, but I will fix that.
-
-Future improvements are going to be:
-- Sorting of the threads
-- Maybe adding different genres like "politics", "technology", "sports" and etc
-- Voting system
-- Adding the comments
-
+```bash
+flask run
+```
