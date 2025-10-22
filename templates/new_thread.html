@@ -28,7 +28,7 @@
                     <h1><a href="/" style="text-decoration: none; color: black;">Threddit</a></h1>
                     {% if session.username %}
                     <form action="/new_thread" method="post">
-                        <input type="hidden" name="csrf_token" value="{{ session['csrf_token']  }}">
+                        <!-- <input type="hidden" name="csrf_token" value="{{ session['csrf_token']  }}"> -->
                         <div class="form-title">
                             <label for="input-title">Title</label>
                             <input type="title" class="form-control" id="input-title" aria-describedby="title" placeholder="Title" name="title">

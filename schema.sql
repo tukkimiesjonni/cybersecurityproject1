@@ -1,66 +1,31 @@
 CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT UNIQUE,
     password TEXT
 );
 
 CREATE TABLE threads (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
     title TEXT,
     content TEXT,
-    published TIMESTAMP
+    published TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE comments (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users,
-    thread_id INTEGER REFERENCES threads,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    thread_id INTEGER,
     comment TEXT,
-    published TIMESTAMP
+    published TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (thread_id) REFERENCES threads(id)
 );
 
 CREATE TABLE votes (
-    id SERIAL PRIMARY KEY,
-    thread_id INTEGER REFERENCES threads,
-    vote INTEGER
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    thread_id INTEGER,
+    vote INTEGER,
+    FOREIGN KEY (thread_id) REFERENCES threads(id)
 );
-
-
-/*
-
-New schema with third normal form
-
-CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    name TEXT UNIQUE,
-    password TEXT
-);
-
-CREATE TABLE threads (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users,
-    title TEXT,
-    published TIMESTAMP
-);
-
-CREATE TABLE thread_content (
-    thread_id INTEGER PRIMARY KEY REFERENCES threads,
-    content TEXT
-);
-
-CREATE TABLE comments (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users,
-    thread_id INTEGER REFERENCES threads,
-    comment TEXT,
-    published TIMESTAMP
-);
-
-CREATE TABLE votes (
-    id SERIAL PRIMARY KEY,
-    thread_id INTEGER REFERENCES threads,
-    vote INTEGER
-);
-
-*/

@@ -1,9 +1,18 @@
-from app import app
-from flask_sqlalchemy import SQLAlchemy
-from os import getenv
+import sqlite3
+from contextlib import closing
 
+DATABASE = "database.db"
 
-app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL")
-db = SQLAlchemy(app)
-app.app_context().push()
-db.create_all()
+def get_connection():
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA foreign_keys = ON;")
+    return conn
+
+def execute_query(query, params=(), fetch=False):
+    with closing(get_connection()) as conn:
+        with conn:
+            cursor = conn.execute(query, params)
+            conn.commit()
+            if fetch:
+                return cursor.fetchall()

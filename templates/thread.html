@@ -30,11 +30,11 @@
                     <small id="timestamp-votes" class="form-text text-muted">{{content[3]}}       Votes: {{ votes }}</small>
                     {% if session.username %}
                     <form action="/upvote/{{ id }}" method="post" class="d-inline">
-                        <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
+                        <!-- <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}"> -->
                         <button type="submit" value="post" class="btn btn-success mr-2">Upvote</button>
                     </form>
                     <form action="/downvote/{{ id }}" method="post" class="d-inline">
-                        <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
+                        <!-- <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}"> -->
                         <button type="submit" value="post" class="btn btn-danger">Downvote</button>
                     </form>
                     <hr>
@@ -42,7 +42,7 @@
                         <label for="comment-content">New Comment</label>
                         <textarea class="form-control" id="comment-content" placeholder="Text" name="comment-content" rows="4"></textarea>
                         <button type="submit" value="post" class="btn btn-primary mt-2">Add Comment</button>
-                        <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
+                        <!-- <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}"> -->
                     </form>
                     {% endif %}
                     <hr>
