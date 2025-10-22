@@ -1,4 +1,4 @@
-# Threddit
+# Cyber Security Base Project 1
 
 This repository is made for Cyber Security Base MOOC course. I try to recreate 5 flaws from the OWASP Top 10 list.
 
@@ -13,9 +13,6 @@ List of example vulnerabilities in this project:
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-- [Progress](#progress)
 
 ## Installation
 
