@@ -10,10 +10,12 @@ ENABLE_LOGGING = True
 app = Flask(__name__)
 logger = setup_logging(enable_logging=ENABLE_LOGGING)
 
+
 @app.before_request
 def log_request_info():
     if ENABLE_LOGGING:
         logger.info(f"Request: {request.method} {request.path} | IP: {request.remote_addr}")
+
 
 @app.after_request
 def log_response_info(response):
