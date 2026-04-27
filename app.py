@@ -4,7 +4,7 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from logging_config import setup_logging
 
-ENABLE_LOGGING = True
+ENABLE_LOGGING = True  # Set to True to enable logging, False to disable
 
 
 app = Flask(__name__)
